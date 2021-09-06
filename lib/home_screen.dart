@@ -8,15 +8,30 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
+  final _textFielt = TextEditingController();
+  List<String> todos = [
+    'Test ToDO 1',
+    'Test ToDO 2',
+    'Test ToDO 3',
+    'Test ToDO 4',
+    'Test ToDO 5'
+  ];
+ void _addtodo(){
+   if(_textFielt.text.length <=0){
+     return;
+   }
+
+   setState(() {
+     todos.insert(0, _textFielt.text);
+   });
+   _textFielt.text='';
+   Navigator.of(context).pop();
+   print(_textFielt);
+ }
   @override
   Widget build(BuildContext context) {
-    List<String> todos = [
-      'Test ToDO 1',
-      'Test ToDO 2',
-      'Test ToDO 3',
-      'Test ToDO 4',
-      'Test ToDO 5'
-    ];
+
     return Scaffold(
       appBar: AppBar(
         title: Text("NOTE APP"),
@@ -31,6 +46,38 @@ class _HomeScreenState extends State<HomeScreen> {
           showDialog(context: context, builder: (context){
             return AlertDialog(
               title: Text("Add Data"),
+              content: TextField(
+                controller: _textFielt,
+                decoration:  InputDecoration(
+                  hintText: "Add a Todo",
+
+
+                ),
+              ),
+              actions: [
+                RaisedButton(onPressed: (){
+
+                  Navigator.of(context).pop();
+                },
+                  color: Colors.red,
+                  child: Text("Cancel"),
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                  ),
+
+                ),
+                RaisedButton(onPressed: (){
+
+                  _addtodo();
+                },
+                  color: Colors.green,
+                  shape: new RoundedRectangleBorder(
+                    borderRadius: new BorderRadius.circular(25.0),
+                  ),
+
+                  child: Text("Add"),
+                ),
+              ],
             );
           });
         },

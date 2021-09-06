@@ -18,9 +18,7 @@ class SingleTodo extends StatelessWidget {
               Spacer(),
               IconButton(onPressed: () {}, icon: Icon(Icons.edit,color: Colors.green,)),
               IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.deepOrange,)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.deepOrange,)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.deepOrange,)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.deepOrange,)),
+
             ],
           ),
         ),
