@@ -25,6 +25,15 @@ class _HomeScreenState extends State<HomeScreen> {
     print(_textFielt);
   }
 
+  Future<void> delteTodo(String id) async {
+    try {
+      final collection = FirebaseFirestore.instance.collection("todo").doc(id);
+      await collection.delete();
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,7 +51,11 @@ class _HomeScreenState extends State<HomeScreen> {
           }
           return ListView(
             children: snapshot.data!.docs
-                .map((todo) => SingleTodo(todo: todo.data().toString()))
+                .map((todo) => SingleTodo(
+                      todo: todo.data().toString(),
+                      id: todo.id,
+              deletefunction:delteTodo,
+                    ))
                 .toList(),
           );
         },

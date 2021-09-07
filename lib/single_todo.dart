@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 class SingleTodo extends StatelessWidget {
   final String todo;
+  final String id;
+  final Function deletefunction;
 
-  SingleTodo({required this.todo});
+  SingleTodo({required this.todo, required this.id, required this.deletefunction});
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +16,27 @@ class SingleTodo extends StatelessWidget {
           padding: const EdgeInsets.all(8.0),
           child: Row(
             children: [
-              Text(todo,style: TextStyle(fontWeight:FontWeight.bold,),),
+              Text(
+                todo,
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
               Spacer(),
-              IconButton(onPressed: () {}, icon: Icon(Icons.edit,color: Colors.green,)),
-              IconButton(onPressed: () {}, icon: Icon(Icons.delete,color: Colors.deepOrange,)),
-
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Icons.edit,
+                    color: Colors.green,
+                  )),
+              IconButton(
+                  onPressed: () {
+                    deletefunction(id);
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Colors.deepOrange,
+                  )),
             ],
           ),
         ),
@@ -26,3 +44,4 @@ class SingleTodo extends StatelessWidget {
     );
   }
 }
+video 1:10
