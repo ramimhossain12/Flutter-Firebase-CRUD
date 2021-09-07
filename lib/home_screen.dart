@@ -15,7 +15,14 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_textFielt.text.length <= 0) {
       return;
     }
-  
+    final collection = FirebaseFirestore.instance.collection("todo");
+    await collection.add({
+      "title": _textFielt.text,
+    });
+
+    _textFielt.text = '';
+    Navigator.of(context).pop();
+    print(_textFielt);
   }
 
   @override
