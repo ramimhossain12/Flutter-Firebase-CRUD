@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'single_todo.dart';
 
@@ -10,6 +9,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final _textFielt = TextEditingController();
+  final _textUpdate = TextEditingController();
 
   Future<void> _addtodo() async {
     if (_textFielt.text.length <= 0) {
@@ -34,6 +34,65 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
+  Future<void> _updateTodo(String id) async {
+    try {
+      DocumentReference documentReference =
+          FirebaseFirestore.instance.collection("todo").doc(id);
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        await transaction.get(documentReference);
+        transaction.update(documentReference, {
+          'title': _textUpdate.text,
+        });
+        Navigator.of(context).pop();
+        _textUpdate.text = '';
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> editButton(String id) async {
+    final collection = FirebaseFirestore.instance.collection("todo").doc(id);
+    await collection.get().then((value) {
+      _textUpdate.text = value.data()!['title'];
+    });
+    showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text("Update Data"),
+            content: TextField(
+              controller: _textUpdate,
+              decoration: InputDecoration(
+                hintText: "Update a Todo",
+              ),
+            ),
+            actions: [
+              RaisedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                color: Colors.red,
+                child: Text("Cancel"),
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                ),
+              ),
+              RaisedButton(
+                onPressed: () {
+                  _updateTodo(id);
+                },
+                color: Colors.green,
+                shape: new RoundedRectangleBorder(
+                  borderRadius: new BorderRadius.circular(25.0),
+                ),
+                child: Text("Update"),
+              ),
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,7 +113,8 @@ class _HomeScreenState extends State<HomeScreen> {
                 .map((todo) => SingleTodo(
                       todo: todo.data().toString(),
                       id: todo.id,
-              deletefunction:delteTodo,
+                      deletefunction: delteTodo,
+                      editFuction: editButton,
                     ))
                 .toList(),
           );
@@ -103,5 +163,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-
-//video start 26.7

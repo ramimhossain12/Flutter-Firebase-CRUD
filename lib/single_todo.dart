@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 class SingleTodo extends StatelessWidget {
   final String todo;
   final String id;
+  final Function editFuction;
   final Function deletefunction;
 
-  SingleTodo({required this.todo, required this.id, required this.deletefunction});
+  SingleTodo({required this.todo, required this.id, required this.deletefunction,required this.editFuction});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,9 @@ class SingleTodo extends StatelessWidget {
               ),
               Spacer(),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    editFuction();
+                  },
                   icon: Icon(
                     Icons.edit,
                     color: Colors.green,
@@ -44,4 +47,3 @@ class SingleTodo extends StatelessWidget {
     );
   }
 }
-video 1:10
